@@ -21,7 +21,7 @@ function executeScript(){
     textArea_translated.classList.add("text-area")
 
     textArea_original.appendChild(textArea_details)
-    textArea_translated.appendCwhild(textArea_details)
+    textArea_translated.appendChild(textArea_details)
 
     translate_res.appendChild(textArea_original)
     translate_res.appendChild(textArea_translated)
@@ -117,6 +117,7 @@ function executeScript(){
       app_wrapper.appendChild(options_wrapper)
       app_wrapper.appendChild(translate_res)
       body.appendChild(app_wrapper)
+      body.appendChild(translate_res)
 
     }
 
@@ -436,7 +437,7 @@ function executeScript(){
     }
 
     function azureTranslationAPI(message){
-      var subscriptionKey = "80930d8bebad4751a3f4526123b808ec";
+      var subscriptionKey = "";
       var endpoint = "https://api.cognitive.microsofttranslator.com/";
       var location = "francecentral";
 
@@ -466,6 +467,8 @@ function executeScript(){
           translate_res.style.animation= "width 0.7s ease-in-out"
           textArea_original.innerHTML = message
           textArea_translated.innerHTML = response.data[0].translations[0].text
+          
+          console.log("heloooooooooooo")
 
       }).catch(err => console.log(err))
     }
@@ -474,6 +477,7 @@ function executeScript(){
      
     
     buttons_wrapper.addEventListener("click", async ()=>{
+      document.dispatchEvent(new KeyboardEvent('keyup',  {'key':'Escape'}));
       let left = 0;
       let top = 0;
       let translate_px = selected_area.style.transform
@@ -529,8 +533,10 @@ function executeScript(){
       }); 
     })
 
-    document.addEventListener("keyup", (event) => {
+    document.addEventListener("keypress", (event) => {
+      console.log(event)
       if(event.key == "Escape" && !document.querySelector('wrapper-9012')) {
+
           body.removeChild(app_wrapper)
           selected_area.removeEventListener("mousemove", drag)
       }
